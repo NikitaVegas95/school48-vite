@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+
+.Container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.Img {
+  height: 100vh;
+  background-image: url(../../img/aut-bg.jpg);
+  background-repeat: repeat;
+}
+
+.Content {
+  width: 712px;
+  margin: auto;
+  padding: 60px;
+}

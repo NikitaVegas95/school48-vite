@@ -1,0 +1,27 @@
+@import "../../styles/variables";
+
+.contentText {
+  margin-top: $margin-24;
+  margin-bottom: 56px;
+  font-family: $font-family-MinSans;
+  font-weight: $regular-font-weight;
+  font-size: $base-font-size;
+  line-height: 27px;
+  text-align: center;
+  color: $black-color;
+  opacity: 0.6;
+
+  &_gray {
+    margin: 0;
+    color: #585858;
+    opacity: 1;
+  }
+
+  &_end {
+    text-align: start;
+    margin-bottom: 0;
+    margin-top: 16px;
+    max-width: 592px;
+    font-size: 16px;
+  }
+}

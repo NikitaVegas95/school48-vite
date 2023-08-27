@@ -1,0 +1,102 @@
+@import "../../../../styles/variables";
+@import '../../../../styles/main';
+
+.contentForm {
+  margin-top: 48px;
+  gap: $margin-32;
+}
+
+.contentInputWrapper {
+  position: relative;
+  margin-bottom: 32px;
+
+  &Margin {
+    position: relative;
+    margin-bottom: 0;
+  }
+}
+
+.Input {
+  padding: 16px;
+  font-size: 18px;
+  height: 64px;
+  width: 100%;
+  background: #fff;
+  border: 2px solid rgba(21, 24, 28, 0.3);
+  border-radius: 8px;
+  transition: border 0.3s ease-in-out, color 0.3s ease-in-out, background 0.3s ease-in-out;
+
+  &:focus {
+    outline: 0;
+    border: 2px solid $purpul-color;
+  }
+
+  &:hover {
+    border: 2px solid $purpul-color;
+  }
+}
+
+.emptyInputError {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  color: red;
+  font-size: 16px;
+  font-family: $font-family-MinSans;
+}
+
+.Placeholder {
+  left: 20px;
+  font-family: $font-family-MinSans;
+  font-weight: $regular-font-weight;
+  font-size: $base-font-size;
+  line-height: 27px;
+  color: rgba(21, 24, 28, 0.2);
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 0.2s ease-in-out, color 0.3s ease-in-out;
+  top: 17px;
+}
+
+.Input:focus ~ .Placeholder,
+.Input:not(:placeholder-shown) ~ .Placeholder {
+  transform: translateY(-39px) translateX(10px) scale(0.75);
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 75%;
+}
+
+.Input:focus ~ .Placeholder {
+  color: $purpul-color;
+}
+
+.btnReset {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.contentFormBtn {
+  width: 592px;
+  min-height: 57px;
+  font-family: $font-family-Unbounded;
+  font-weight: $bold-font-weight;
+  font-size: $base-font-size;
+  line-height: 25px;
+  color: $white-color;
+  background-color: $purpul-color;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.Margin24 {
+  margin-top: $margin-24;
+}
+

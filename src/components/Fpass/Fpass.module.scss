@@ -1,0 +1,22 @@
+@import "../../styles/variables";
+
+.resetWrapper {
+  margin-top: $margin-24;
+  max-width: 592px;
+  display: flex;
+  justify-content: end;
+}
+
+.resetPass {
+  font-family: $font-family-MinSans;
+  font-weight: $bold-font-weight;
+  font-size: $base-font-size;
+  line-height: 27px;
+  color: $purpul-color;
+  opacity: 0.4;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -4,7 +4,11 @@ import { IFormInput } from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC} from "react";
+import {FC, useState} from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {useNavigate} from "react-router-dom";
+
+
 const Form:FC = () => {
   const {
     register,
@@ -14,9 +18,19 @@ const Form:FC = () => {
   } = useForm<IFormInput>({
     mode: 'onSubmit',
   });
-
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    alert(JSON.stringify(data));
+  const [email, setEmail] = useState('');
+  const [password, setPass] = useState('');
+  const navigation = useNavigate()
+  const onSubmit: SubmitHandler<IFormInput> = () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert('Вы вошли')
+            navigation('/main')
+        })
+        .catch(() => {
+          alert('Что-то не так')
+        });
     reset();
   };
 
@@ -34,6 +48,7 @@ const Form:FC = () => {
           })}
           type=" "
           placeholder=" "
+          onChange={(e) => setEmail(e.target.value)}
         />
         <div>
           {errors?.email && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
@@ -53,6 +68,7 @@ const Form:FC = () => {
           })}
           type="password"
           placeholder=" "
+          onChange={(e) => setPass(e.target.value)}
         />
         <div>
           {errors?.pass && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}

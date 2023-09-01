@@ -3,7 +3,7 @@ import { Dispatch } from 'react';
 export interface IFormInput {
   email: string;
   pass: string;
-  name: string;
+  // name: string;
 }
 
 export type RegProps = {

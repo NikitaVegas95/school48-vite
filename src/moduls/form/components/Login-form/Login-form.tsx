@@ -5,11 +5,16 @@ import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
 import {FC, useState} from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {useNavigate} from "react-router-dom";
+import {auth} from "../../../../firebase.ts";
+import {setUser} from "../../../../store/slices/userSlice.ts";
+import {useAppDispatch} from "../../../../hooks/redux-hooks.ts";
 
 
 const Form:FC = () => {
+    const navigation = useNavigate();
+    const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -20,17 +25,23 @@ const Form:FC = () => {
   });
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
-  const navigation = useNavigate()
-  const onSubmit: SubmitHandler<IFormInput> = () => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert('Вы вошли')
-            navigation('/main')
-        })
-        .catch(() => {
-          alert('Что-то не так')
-        });
+  const onSubmit: SubmitHandler<IFormInput> = async () => {
+      try {
+          await signInWithEmailAndPassword(auth, email, password)
+          .then(({user}) => {
+              dispatch(setUser({
+                  email: user.email,
+                  id: user.uid,
+                  token: user.refreshToken,
+              }))
+              navigation('/main')
+          })
+          .catch(console.error)
+
+      } catch (err) {
+          console.error(err)
+      }
+
     reset();
   };
 
@@ -38,12 +49,13 @@ const Form:FC = () => {
     <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>
       <div className={style.contentInputWrapper}>
         <input
-          maxLength={30}
+            autoComplete='on'
+          maxLength={40}
           minLength={8}
           className={style.Input}
           {...register('email', {
             required: true,
-            maxLength: 20,
+            maxLength: 40,
             pattern: patternEmail,
           })}
           type=" "
@@ -59,12 +71,13 @@ const Form:FC = () => {
       </div>
       <div className={style.contentInputWrapperMargin}>
         <input
-          maxLength={20}
+            autoComplete='on'
+          maxLength={40}
           minLength={8}
           className={style.Input}
           {...register('pass', {
             required: true,
-            maxLength: 20,
+            maxLength: 40,
           })}
           type="password"
           placeholder=" "

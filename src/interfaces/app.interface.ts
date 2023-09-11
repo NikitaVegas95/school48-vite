@@ -3,7 +3,6 @@ import { Dispatch } from 'react';
 export interface IFormInput {
   email: string;
   pass: string;
-  // name: string;
 }
 
 export type RegProps = {
@@ -13,4 +12,11 @@ export type RegProps = {
 export interface ModalProps {
   setModalActive: Dispatch<boolean>;
   modalActive: boolean;
+}
+
+export interface WriteUser {
+  (userId: string,
+   name: string,
+   email: string,
+   password: string):void
 }

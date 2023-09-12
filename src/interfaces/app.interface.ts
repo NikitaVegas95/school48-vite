@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 
 export interface IFormInput {
-  email: string;
+  email: any;
   pass: string;
 }
 

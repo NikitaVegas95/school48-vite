@@ -1,6 +1,6 @@
 import '../../../../styles/main.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IFormInput } from '../../../../interfaces/app.interface.ts';
+import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
@@ -26,7 +26,7 @@ const Form:FC = () => {
   });
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
-  const onSubmit: SubmitHandler<IFormInput> = async () => {
+  const onSubmit: WriteUser = async (email, password) => {
       try {
           await signInWithEmailAndPassword(auth, email, password)
           .then(({user}) => {

@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 import {auth} from "../../../../firebase.ts";
 import {setUser} from "../../../../store/slices/userSlice.ts";
 import {useAppDispatch} from "../../../../hooks/redux-hooks.ts";
+import readUserData from "../../../../db/read/readUserData.ts";
 
 
 const Form:FC = () => {
@@ -34,6 +35,7 @@ const Form:FC = () => {
                   id: user.uid,
                   token: user.refreshToken,
               }))
+              readUserData()
               navigation('/main')
           })
           .catch(console.error)

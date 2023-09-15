@@ -1,31 +1,37 @@
 import { useForm } from 'react-hook-form';
-import {IFormInput} from '../../../../interfaces/app.interface.ts';
+import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../../../store";
+import userLogin from "../../../../req/post/postUserLogin.ts";
 
 const Form:FC = () => {
+    const dispatch = useDispatch<AppDispatch>()
 
-
+    useEffect(() => {
+        dispatch(userLogin)
+    }, [])
 
   const {
     register,
-    // handleSubmit,
-    // reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IFormInput>({
     mode: 'onSubmit',
   });
-  // const [email, setEmail] = useState('');
-  // const [password, setPass] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPass] = useState('');
 
 
-  // const onSubmit: WriteUser = async () => {
-  //
-  //
-  //   reset();
-  // };
+  const onSubmit: WriteUser = async () => {
+
+
+    reset();
+  };
 
   return (
     <form className={style.contentForm} >
@@ -42,7 +48,7 @@ const Form:FC = () => {
           })}
           type=" "
           placeholder=" "
-          // onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <div>
           {errors?.email && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
@@ -63,7 +69,7 @@ const Form:FC = () => {
           })}
           type="password"
           placeholder=" "
-          // onChange={(e) => setPass(e.target.value)}
+          onChange={(e) => setPass(e.target.value)}
         />
         <div>
           {errors?.pass && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}

@@ -14,7 +14,7 @@ mongoose.connect('mongodb+srv://nikitavegas95:7412@cluster0.kyp5gki.mongodb.net/
     .then(() => console.log('DB ok'))
     .catch((err) => console.log('DB error', err));
 
-appServer.post('/login', loginValidation, userController.login)
+appServer.post('/', loginValidation, userController.login)
 appServer.post('/registration', registrationValidation, userController.register)
 appServer.get('/me', checkUser, userController.getMe)
 

@@ -1,27 +1,26 @@
-import {FC, useEffect} from "react";
-import {fetchTasks} from "../../store/slices/taskSlice.ts";
-import {useDispatch, useSelector} from "react-redux";
+import {FC, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../store";
-
-const getTask = (state) => state.task
+import fetchTasks from "../../req/get/getTask.ts";
 
 
 const MainPage:FC = () => {
+    const [task, setTask] = useState([]);
     const dispatch = useDispatch<AppDispatch>()
-    const task = useSelector(getTask)
-    console.log(task)
-
-
 
     useEffect(() => {
-        dispatch(fetchTasks())
+        dispatch(fetchTasks(setTask))
     }, [])
 
-
-    return  (
-
+    return (
         <div>
-
+            {task.map((task, index) => (
+                <div key={index}>
+                    <h1>{task.title}</h1>
+                    <p>{task.text}</p>
+                    <div>{task._id}</div>
+                </div>
+            ))}
         </div>
     );
 };

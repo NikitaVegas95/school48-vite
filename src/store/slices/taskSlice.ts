@@ -1,24 +1,13 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "./../../axios.ts";
-
-
-export const fetchTasks = createAsyncThunk('/tasks/fetchTasks', async () => {
-    const {data} = await axios.get('/tasks')
-    return data
-})
+import { createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     task: {
         items: [],
-        status: 'lading',
+        status: 'loading'
     },
-    tags: {
-        items: [],
-        status: 'lading',
-    }
 }
 
-const tagSlice = createSlice(
+const taskSlice = createSlice(
     {
         name: 'task',
         initialState,
@@ -26,4 +15,4 @@ const tagSlice = createSlice(
     }
 )
 
-export const tasksReducer = tagSlice.reducer
+export const setTask = taskSlice.reducer

@@ -1,5 +1,4 @@
 import  { FC } from 'react';
-import '../../styles/main.scss';
 import { RegProps } from '../../interfaces/app.interface.ts';
 import style from './Title.module.scss'
 

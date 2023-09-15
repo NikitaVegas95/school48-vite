@@ -8,7 +8,7 @@ const App:FC = () => (
  <Routes>
      <Route path='/' element={<HomePage/>}/>
      <Route path='/registration' element={<RegistrationPage />}/>
-     <Route path='/main' element={<MainPage />}/>
+     <Route path='/tasks' element={<MainPage />}/>
  </Routes>
 );
 

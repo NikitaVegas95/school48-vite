@@ -1,54 +1,34 @@
-import '../../../../styles/main.scss';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
+import { useForm } from 'react-hook-form';
+import {IFormInput} from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC, useState} from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import {useNavigate} from "react-router-dom";
-import {auth} from "../../../../firebase.ts";
-import {setUser} from "../../../../store/slices/userSlice.ts";
-import {useAppDispatch} from "../../../../hooks/redux-hooks.ts";
-import readUserData from "../../../../db/read/readUserData.ts";
-
+import {FC} from "react";
 
 const Form:FC = () => {
-    const navigation = useNavigate();
-    const dispatch = useAppDispatch()
+
+
+
   const {
     register,
-    handleSubmit,
-    reset,
+    // handleSubmit,
+    // reset,
     formState: { errors },
   } = useForm<IFormInput>({
     mode: 'onSubmit',
   });
-  const [email, setEmail] = useState('');
-  const [password, setPass] = useState('');
-  const onSubmit: WriteUser = async (email, password) => {
-      try {
-          await signInWithEmailAndPassword(auth, email, password)
-          .then(({user}) => {
-              dispatch(setUser({
-                  email: user.email,
-                  id: user.uid,
-                  token: user.refreshToken,
-              }))
-              readUserData()
-              navigation('/main')
-          })
-          .catch(console.error)
+  // const [email, setEmail] = useState('');
+  // const [password, setPass] = useState('');
 
-      } catch (err) {
-          console.error(err)
-      }
 
-    reset();
-  };
+  // const onSubmit: WriteUser = async () => {
+  //
+  //
+  //   reset();
+  // };
 
   return (
-    <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>
+    <form className={style.contentForm} >
       <div className={style.contentInputWrapper}>
         <input
             autoComplete='on'
@@ -62,7 +42,7 @@ const Form:FC = () => {
           })}
           type=" "
           placeholder=" "
-          onChange={(e) => setEmail(e.target.value)}
+          // onChange={(e) => setEmail(e.target.value)}
         />
         <div>
           {errors?.email && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
@@ -83,7 +63,7 @@ const Form:FC = () => {
           })}
           type="password"
           placeholder=" "
-          onChange={(e) => setPass(e.target.value)}
+          // onChange={(e) => setPass(e.target.value)}
         />
         <div>
           {errors?.pass && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import '../../styles/main.scss';
 import style from './Progressbar.module.scss';
 
 const Progressbar: FC = () => (

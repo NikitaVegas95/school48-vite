@@ -1,22 +1,28 @@
-import {Navigate} from 'react-router-dom'
-import {FC} from "react";
-import {removeUser} from '../../store/slices/userSlice.ts'
-import {useAppDispatch} from "../../hooks/redux-hooks.ts";
-import {useAuth} from "../../hooks/useAuth.ts";
+import {FC, useEffect} from "react";
+import {fetchTasks} from "../../store/slices/taskSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../../store";
+
+const getTask = (state) => state.task
+
 
 const MainPage:FC = () => {
-    const dispatch = useAppDispatch()
-    const {isAuth, email} = useAuth();
+    const dispatch = useDispatch<AppDispatch>()
+    const task = useSelector(getTask)
+    console.log(task)
 
-    return isAuth ? (
+
+
+    useEffect(() => {
+        dispatch(fetchTasks())
+    }, [])
+
+
+    return  (
+
         <div>
-            <h1>Привет {email}</h1>
-            <button onClick={() => dispatch(removeUser())}>Выход {email}</button>
+
         </div>
-        ) : (
-            <div>
-                <Navigate to='/'/>
-            </div>
     );
 };
 

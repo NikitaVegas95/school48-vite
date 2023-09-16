@@ -3,17 +3,13 @@ import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC, useEffect, useState} from "react";
+import {FC} from "react";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../store";
-import userLogin from "../../../../req/post/postUserLogin.ts";
+import {fetchAuth} from "../../../../store/slices/auth.ts";
 
 const Form:FC = () => {
     const dispatch = useDispatch<AppDispatch>()
-
-    useEffect(() => {
-        dispatch(userLogin)
-    }, [])
 
   const {
     register,
@@ -21,20 +17,23 @@ const Form:FC = () => {
     reset,
     formState: { errors },
   } = useForm<IFormInput>({
+      defaultValues: {
+          email: 'test1@test.com',
+          password: '741258963',
+      },
     mode: 'onSubmit',
+
   });
-  const [email, setEmail] = useState('');
-  const [password, setPass] = useState('');
 
 
-  const onSubmit: WriteUser = async () => {
 
-
+  const onSubmit: WriteUser = async (values) => {
+      dispatch(fetchAuth(values))
     reset();
   };
 
   return (
-    <form className={style.contentForm} >
+    <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>
       <div className={style.contentInputWrapper}>
         <input
             autoComplete='on'
@@ -48,7 +47,6 @@ const Form:FC = () => {
           })}
           type=" "
           placeholder=" "
-          onChange={(e) => setEmail(e.target.value)}
         />
         <div>
           {errors?.email && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
@@ -69,7 +67,6 @@ const Form:FC = () => {
           })}
           type="password"
           placeholder=" "
-          onChange={(e) => setPass(e.target.value)}
         />
         <div>
           {errors?.pass && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
@@ -79,7 +76,7 @@ const Form:FC = () => {
         </label>
       </div>
       <Fpass />
-      <button className={`${style.btnReset} ${style.contentFormBtn} ${style.Margin24}`}>Войти</button>
+      <button type="submit" className={`${style.btnReset} ${style.contentFormBtn} ${style.Margin24}`}>Войти</button>
     </form>
   );
 }

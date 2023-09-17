@@ -6,20 +6,20 @@ import style from './Login-form.module.scss'
 import {FC} from "react";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../store";
-import {fetchAuth} from "../../../../store/slices/auth.ts";
+import fetchAuth from "../../../../store/thunk/featchAuth.ts";
 
 const Form:FC = () => {
-    const dispatch = useDispatch<AppDispatch>()
 
+    const dispatch = useDispatch<AppDispatch>()
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors},
   } = useForm<IFormInput>({
       defaultValues: {
-          email: 'test1@test.com',
-          password: '741258963',
+          email: 'nikitavegas95@gmail.com',
+          password: '',
       },
     mode: 'onSubmit',
 
@@ -27,8 +27,9 @@ const Form:FC = () => {
 
 
 
-  const onSubmit: WriteUser = async (values) => {
+  const onSubmit: WriteUser = async (values:string) => {
       dispatch(fetchAuth(values))
+      console.log(values)
     reset();
   };
 
@@ -61,7 +62,7 @@ const Form:FC = () => {
           maxLength={40}
           minLength={8}
           className={style.Input}
-          {...register('pass', {
+          {...register('password', {
             required: true,
             maxLength: 40,
           })}
@@ -69,7 +70,7 @@ const Form:FC = () => {
           placeholder=" "
         />
         <div>
-          {errors?.pass && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
+          {errors?.password && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
         </div>
         <label className={style.Placeholder} htmlFor="pass">
           Пароль

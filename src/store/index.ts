@@ -1,12 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit';
 import taskSlice from "./slices/tasks.ts";
-import userSlice from "./slices/auth.ts";
+import authSlice from "./slices/auth.ts";
 
-export const store = configureStore({
+const store = configureStore({
     reducer: {
         task: taskSlice,
-        user: userSlice,
+        auth: authSlice,
     }
 });
-
+export default store
 export type AppDispatch = typeof store.dispatch;

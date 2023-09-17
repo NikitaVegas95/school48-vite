@@ -1,31 +1,32 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "../../axios.ts";
+import {createSlice} from "@reduxjs/toolkit";
+import fetchTasks from "../thunk/fetchTasks.ts";
 
-export const fetchTasks = createAsyncThunk('/tasks/fetchTasks', async (getState) => {
-    try {
-        await axios.get('/tasks')
-            .then((res) => {
-                getState(res.data)
-            })
-    } catch (err) {
-        console.log(err)
-    }
-
-})
-
-const initialState = {
-    task: {
-        items: [],
-        status: 'loading'
-    },
-}
-
-const tasks = createSlice(
+const taskSlice = createSlice(
     {
-        name: 'task',
-        initialState,
+        name: 'tasks',
+        initialState: {
+            tasks: [
+                {
+                    _id: null,
+                    title: null,
+                    text: null,
+                }
+            ]
+        },
         reducers: {},
-    }
-)
+        extraReducers: {
+            [fetchTasks.pending]: (state, action) => {
+                console.log('Запрос')
+            },
+            [fetchTasks.fulfilled]: (state, action) => {
+                state.tasks = action.payload
+            },
+            [fetchTasks.rejected]: (state, action) => {
+                console.log("ошибка")
+            }
+        }
 
-export default tasks.reducer
+    }
+);
+export const { setTasks } = taskSlice.actions
+export default taskSlice.reducer

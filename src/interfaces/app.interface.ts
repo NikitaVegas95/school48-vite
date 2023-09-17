@@ -2,7 +2,7 @@ import { Dispatch } from 'react';
 
 export interface IFormInput {
   email: any;
-  pass: string;
+  password: string;
 }
 
 export type RegProps = {
@@ -18,6 +18,7 @@ export interface WriteUser {
   (
    email: string,
    password: string):void
+
 }
 
 export interface UserSlicesState {

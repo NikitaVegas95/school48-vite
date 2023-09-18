@@ -1,26 +1,24 @@
 import { createSlice} from '@reduxjs/toolkit';
-
-const initialState = {
-    getUser: {
-        _id: null,
-        token: null,
-        email: null,
-        fullName: null,
-    }
-};
+import fetchAuth from "../thunk/fetchAuth.ts";
 
 const authSlice = createSlice({
-    name: 'getUser',
-    initialState,
+    name: 'auth',
+    initialState: {
+        auths: [],
+    },
     reducers: {
-        setUser (state, action) {
-            state._id = action.payload._id
-            state.token = action.payload.token
-            state.email = action.payload.email
-            state.fullName = action.payload.fullName
+        logout: (state) => {
+            state.data = null;
         }
     },
+    extraReducers: {
+        [fetchAuth.fulfilled]: (state, action) => {
+            state.data = action.payload
+        }
+    }
 });
-export const stateUser = (state) => state
+export const selectIsAuth = (state) => Boolean(state.auth.data)
 
 export default authSlice.reducer;
+
+export const {logout} = authSlice.actions

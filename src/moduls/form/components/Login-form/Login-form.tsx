@@ -3,14 +3,20 @@ import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC} from "react";
-import {useDispatch} from "react-redux";
+import {FC, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
-import fetchAuth from "../../../../store/thunk/featchAuth.ts";
+import fetchAuth from "../../../../store/thunk/fetchAuth.ts";
+import {selectIsAuth} from "../../../../store/slices/auth.ts";
+import {Navigate, useNavigate} from "react-router-dom";
+
+
 
 const Form:FC = () => {
-
+    const isAuth = useSelector(selectIsAuth)
+    const isAuthToken = window.localStorage.getItem('token')
     const dispatch = useDispatch<AppDispatch>()
+    const navigateToTasks = useNavigate()
   const {
     register,
     handleSubmit,
@@ -25,13 +31,30 @@ const Form:FC = () => {
 
   });
 
-
-
   const onSubmit: WriteUser = async (values:string) => {
-      dispatch(fetchAuth(values))
-      console.log(values)
+      const data = await dispatch(fetchAuth(values))
+      console.log(data)
+      if (!data.payload) {
+          alert('Не удалось авторизоваться')
+      }
+      if ('token' in data.payload) {
+          window.localStorage.setItem('token', data.payload.token)
+      } else {
+          alert('Не удалось авторизоваться')
+      }
     reset();
   };
+
+  useEffect(() => {
+      if (isAuthToken) {
+          navigateToTasks('/tasks')
+      }
+  }, [])
+
+  if (isAuth && isAuthToken) {
+      navigateToTasks('/tasks')
+  }
+
 
   return (
     <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>
@@ -79,7 +102,7 @@ const Form:FC = () => {
       <Fpass />
       <button type="submit" className={`${style.btnReset} ${style.contentFormBtn} ${style.Margin24}`}>Войти</button>
     </form>
-  );
+  )
 }
 
 export default Form;

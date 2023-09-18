@@ -1,51 +1,60 @@
-import '../../../../styles/main.scss';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC, useState} from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import {useNavigate} from "react-router-dom";
-import {auth} from "../../../../firebase.ts";
-import {setUser} from "../../../../store/slices/userSlice.ts";
-import {useAppDispatch} from "../../../../hooks/redux-hooks.ts";
-import readUserData from "../../../../db/read/readUserData.ts";
+import {FC, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../../../../store";
+import fetchAuth from "../../../../store/thunk/fetchAuth.ts";
+import {selectIsAuth} from "../../../../store/slices/auth.ts";
+import {Navigate, useNavigate} from "react-router-dom";
+
 
 
 const Form:FC = () => {
-    const navigation = useNavigate();
-    const dispatch = useAppDispatch()
+    const isAuth = useSelector(selectIsAuth)
+    const isAuthToken = window.localStorage.getItem('token')
+    const dispatch = useDispatch<AppDispatch>()
+    const navigateToTasks = useNavigate()
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors},
   } = useForm<IFormInput>({
+      defaultValues: {
+          email: 'nikitavegas95@gmail.com',
+          password: '',
+      },
     mode: 'onSubmit',
+
   });
-  const [email, setEmail] = useState('');
-  const [password, setPass] = useState('');
-  const onSubmit: WriteUser = async (email, password) => {
-      try {
-          await signInWithEmailAndPassword(auth, email, password)
-          .then(({user}) => {
-              dispatch(setUser({
-                  email: user.email,
-                  id: user.uid,
-                  token: user.refreshToken,
-              }))
-              readUserData()
-              navigation('/main')
-          })
-          .catch(console.error)
 
-      } catch (err) {
-          console.error(err)
+  const onSubmit: WriteUser = async (values:string) => {
+      const data = await dispatch(fetchAuth(values))
+      console.log(data)
+      if (!data.payload) {
+          alert('Не удалось авторизоваться')
       }
-
+      if ('token' in data.payload) {
+          window.localStorage.setItem('token', data.payload.token)
+      } else {
+          alert('Не удалось авторизоваться')
+      }
     reset();
   };
+
+  useEffect(() => {
+      if (isAuthToken) {
+          navigateToTasks('/tasks')
+      }
+  }, [])
+
+  if (isAuth && isAuthToken) {
+      navigateToTasks('/tasks')
+  }
+
 
   return (
     <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>
@@ -62,7 +71,6 @@ const Form:FC = () => {
           })}
           type=" "
           placeholder=" "
-          onChange={(e) => setEmail(e.target.value)}
         />
         <div>
           {errors?.email && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
@@ -77,25 +85,24 @@ const Form:FC = () => {
           maxLength={40}
           minLength={8}
           className={style.Input}
-          {...register('pass', {
+          {...register('password', {
             required: true,
             maxLength: 40,
           })}
           type="password"
           placeholder=" "
-          onChange={(e) => setPass(e.target.value)}
         />
         <div>
-          {errors?.pass && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
+          {errors?.password && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
         </div>
         <label className={style.Placeholder} htmlFor="pass">
           Пароль
         </label>
       </div>
       <Fpass />
-      <button className={`${style.btnReset} ${style.contentFormBtn} ${style.Margin24}`}>Войти</button>
+      <button type="submit" className={`${style.btnReset} ${style.contentFormBtn} ${style.Margin24}`}>Войти</button>
     </form>
-  );
+  )
 }
 
 export default Form;

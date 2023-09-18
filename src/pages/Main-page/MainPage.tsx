@@ -1,22 +1,52 @@
-import {Navigate} from 'react-router-dom'
-import {FC} from "react";
-import {removeUser} from '../../store/slices/userSlice.ts'
-import {useAppDispatch} from "../../hooks/redux-hooks.ts";
-import {useAuth} from "../../hooks/useAuth.ts";
+import {FC, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../../store";
+import fetchTasks from "../../store/thunk/fetchTasks.ts";
+import {logout} from "../../store/slices/auth.ts";
+import {useNavigate} from "react-router-dom";
+
+const getTasks = state => state.task.tasks
 
 const MainPage:FC = () => {
-    const dispatch = useAppDispatch()
-    const {isAuth, email} = useAuth();
+    const setTasks = useSelector(getTasks)
+    const dispatch = useDispatch<AppDispatch>()
+    const isAuthToken = window.localStorage.getItem('token')
+    const navigateToLogin = useNavigate()
 
-    return isAuth ? (
+    useEffect(() => {
+        if (isAuthToken) {
+            dispatch(fetchTasks())
+        }
+        if (!isAuthToken) {
+            navigateToLogin('/')
+        }
+    }, [])
+
+    const onClickLogout = () => {
+        if (window.confirm('Вы действительно хотите выйти?')) {
+            dispatch(logout())
+            window.localStorage.removeItem('token')
+        }
+        if (isAuthToken) {
+            navigateToLogin('/')
+        }
+    }
+
+
+
+    return (
         <div>
-            <h1>Привет {email}</h1>
-            <button onClick={() => dispatch(removeUser())}>Выход {email}</button>
-        </div>
-        ) : (
+            {setTasks.map((task, index) => (
+                <div key={index}>
+                    <h1>{task.title}</h1>
+                    <p>{task.text}</p>
+                    <p>{task._id}</p>
+                </div>
+            ))}
             <div>
-                <Navigate to='/'/>
+                <button onClick={onClickLogout}>выход</button>
             </div>
+        </div>
     );
 };
 

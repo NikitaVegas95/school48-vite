@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import '../../styles/main.scss';
 import Title from '../../components/Title/Title.tsx';
 import Text from '../../components/Text/Text.tsx';
 import Name from '../../components/Name/Name.tsx';

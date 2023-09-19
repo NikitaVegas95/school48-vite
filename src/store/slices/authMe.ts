@@ -1,14 +1,14 @@
 import { createSlice} from '@reduxjs/toolkit';
-import fetchAuthMe from "../thunk/featchAuthMe.ts";
+import fetchAuthMe from "../thunk/fetchAuthMe.ts";
 
-const authSlice = createSlice({
+const authSlice:any = createSlice({
     name: 'auth',
     initialState: {
         auths: [],
     },
     reducers: {},
     extraReducers: {
-        [fetchAuthMe.fulfilled]: (state, action) => {
+        [fetchAuthMe.fulfilled]: (state:any, action:any) => {
             state.data = action.payload
         }
     }

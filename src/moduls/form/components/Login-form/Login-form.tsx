@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
-import {IFormInput, WriteUser} from '../../../../interfaces/app.interface.ts';
+import {IFormInput} from '../../../../app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
 import fetchAuth from "../../../../store/thunk/fetchAuth.ts";
@@ -30,7 +30,7 @@ const Form:FC = () => {
     mode: 'onSubmit',
   });
 
-  const onSubmit: WriteUser = async (values:string) => {
+  const onSubmit = async (values: any) => {
       const data = await dispatch(fetchAuth(values))
       console.log(data)
       if (!data.payload) {
@@ -43,12 +43,6 @@ const Form:FC = () => {
       }
     reset();
   };
-
-  useEffect(() => {
-      if (isAuthToken) {
-          navigateToTasks('/tasks')
-      }
-  }, [])
 
   if (isAuth && isAuthToken) {
       navigateToTasks('/tasks')

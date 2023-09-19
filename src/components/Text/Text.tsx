@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { RegProps } from '../../interfaces/app.interface.ts';
+import { RegProps } from '../../app.interface.ts';
 import style from './Text.module.scss'
 
 const Text: FC<RegProps> = ({ title }) => <p className={style.contentText}>{title}</p>;

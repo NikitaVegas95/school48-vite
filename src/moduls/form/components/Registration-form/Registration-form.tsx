@@ -1,10 +1,10 @@
-import {FC, useEffect} from 'react';
+import {FC} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
 import {selectIsAuth} from "../../../../store/slices/auth.ts";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import {IFormInput, WriteUser} from "../../../../interfaces/app.interface.ts";
+import {IFormInputReg} from "../../../../app.interface.ts";
 import style from "../Login-form/Login-form.module.scss";
 import patternEmail from "../../pattern/pattern-email.tsx";
 import fetchRegistration from "../../../../store/thunk/featchRegistration.ts";
@@ -19,7 +19,7 @@ const RegistrationForm:FC = () => {
         handleSubmit,
         reset,
         formState: { errors},
-    } = useForm<IFormInput>({
+    } = useForm<IFormInputReg>({
         defaultValues: {
             fullName: 'Никита',
             email: 'nikitavegas95@gmail.com',
@@ -28,7 +28,7 @@ const RegistrationForm:FC = () => {
         mode: 'onSubmit',
     });
 
-    const onSubmit: WriteUser = async (values:string) => {
+    const onSubmit = async (values:any) => {
         const data = await dispatch(fetchRegistration(values))
         console.log(data)
         if (!data.payload) {

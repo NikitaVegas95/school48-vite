@@ -1,7 +1,7 @@
-import {createReducer, createSlice} from "@reduxjs/toolkit";
+import { createSlice} from "@reduxjs/toolkit";
 import fetchTasks from "../thunk/fetchTasks.ts";
 
-const taskSlice = createSlice(
+const taskSlice:any = createSlice(
     {
         name: 'tasks',
         initialState: {
@@ -15,7 +15,7 @@ const taskSlice = createSlice(
         },
         reducers: {},
         extraReducers: {
-            [fetchTasks.fulfilled]: (state, action) => {
+            [fetchTasks.fulfilled]: (state:any, action:any) => {
                 state.tasks = action.payload
             },
         }

@@ -5,7 +5,9 @@ import fetchTasks from "../../store/thunk/fetchTasks.ts";
 import {logout} from "../../store/slices/auth.ts";
 import {useNavigate} from "react-router-dom";
 
-const getTasks = state => state.task.tasks
+const getTasks = (state:any) => {
+    return state.task.tasks;
+}
 
 const MainPage:FC = () => {
     const setTasks = useSelector(getTasks)
@@ -20,7 +22,7 @@ const MainPage:FC = () => {
         if (!isAuthToken) {
             navigateToLogin('/')
         }
-    }, [])
+    }, [dispatch, isAuthToken, navigateToLogin])
 
     const onClickLogout = () => {
         if (window.confirm('Вы действительно хотите выйти?')) {
@@ -36,7 +38,7 @@ const MainPage:FC = () => {
 
     return (
         <div>
-            {setTasks.map((task, index) => (
+            {setTasks.map((task:any, index:any) => (
                 <div key={index}>
                     <h1>{task.title}</h1>
                     <p>{task.text}</p>

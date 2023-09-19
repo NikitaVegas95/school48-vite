@@ -16,3 +16,55 @@
   margin: auto;
   padding: 60px;
 }
+
+.btnReset {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.contentRegWrapper {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.contentText {
+  margin-top: $margin-24;
+  margin-bottom: 56px;
+  font-family: $font-family-MinSans;
+  font-weight: $regular-font-weight;
+  font-size: $base-font-size;
+  line-height: 27px;
+  text-align: center;
+  color: $black-color;
+  opacity: 0.6;
+
+  &Gray {
+    margin: 0;
+    color: #585858;
+    opacity: 1;
+  }
+
+  &End {
+    text-align: start;
+    margin-bottom: 0;
+    margin-top: 16px;
+    max-width: 592px;
+    font-size: 16px;
+  }
+}
+
+.contentReg {
+  font-family: $font-family-MinSans;
+  font-weight: $bold-font-weight;
+  font-size: $base-font-size;
+  line-height: 27px;
+  color: $purpul-color;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

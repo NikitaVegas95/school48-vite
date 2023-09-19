@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
 import fetchAuth from "../../../../store/thunk/fetchAuth.ts";
 import {selectIsAuth} from "../../../../store/slices/auth.ts";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -28,7 +28,6 @@ const Form:FC = () => {
           password: '',
       },
     mode: 'onSubmit',
-
   });
 
   const onSubmit: WriteUser = async (values:string) => {

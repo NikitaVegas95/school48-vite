@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
 
 export interface IFormInput {
+  fullName: string;
   email: any;
   password: string;
 }

@@ -1,41 +1,117 @@
-import {FC, useState} from 'react';
-import {useDispatch} from "react-redux";
+import {FC, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "../../../../axios.ts";
-
+import {selectIsAuth} from "../../../../store/slices/auth.ts";
+import {useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {IFormInput, WriteUser} from "../../../../interfaces/app.interface.ts";
+import style from "../Login-form/Login-form.module.scss";
+import patternEmail from "../../pattern/pattern-email.tsx";
+import fetchRegistration from "../../../../store/thunk/featchRegistration.ts";
 
 const RegistrationForm:FC = () => {
+    const isAuth = useSelector(selectIsAuth)
+    const isAuthToken = window.localStorage.getItem('token')
     const dispatch = useDispatch<AppDispatch>()
-    const userRegister = () => {
-        dispatch(userRegistration(setEmail))
+    const navigateToTasks = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors},
+    } = useForm<IFormInput>({
+        defaultValues: {
+            fullName: 'Никита',
+            email: 'nikitavegas95@gmail.com',
+            password: '',
+        },
+        mode: 'onSubmit',
+    });
+
+    const onSubmit: WriteUser = async (values:string) => {
+        const data = await dispatch(fetchRegistration(values))
+        console.log(data)
+        if (!data.payload) {
+            alert('Не удалось зарегистрироваться')
+        }
+        if ('token' in data.payload) {
+            window.localStorage.setItem('token', data.payload.token)
+        } else {
+            alert('Не удалось зарегистрироваться')
+        }
+        reset();
+    };
+
+    if (isAuth && isAuthToken) {
+        navigateToTasks('/tasks')
     }
 
-    const userRegistration = createAsyncThunk('/registration/userRegistration', async (getState) => {
-        try {
-            await axios.post('/registration')
-                .then((req) => {
-                    getState(req)
-                })
-        } catch (err) {
-            console.log(err)
-        }
-
-    })
-
-
-    const [email, setEmail ] = useState('');
-    const [pass, setPass] = useState('');
-    const [fullName, setFullName] = useState('');
-
-
     return (
-        <div>
-            <input type="email" value={email} placeholder="email" onChange={(e) => setEmail(e.target.value)}/>
-            <input type="password" value={pass} placeholder="password" onChange={(e) => setPass(e.target.value)}/>
-            <input type="text" value={fullName} placeholder="fullName" onChange={(e) => setFullName(e.target.value)}/>
-            <button onClick={() => userRegister()}>Регистрация</button>
-        </div>
+        <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>
+            <div className={style.contentInputWrapper}>
+                <input
+                    autoComplete='on'
+                    maxLength={40}
+                    minLength={2}
+                    className={style.Input}
+                    {...register('fullName', {
+                        required: true,
+                        maxLength: 40,
+                    })}
+                    type=" "
+                    placeholder=" "
+                />
+                <div>
+                    {errors?.fullName && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
+                </div>
+                <label className={style.Placeholder} htmlFor="fullName">
+                    ФИО
+                </label>
+            </div>
+            <div className={style.contentInputWrapper}>
+                <input
+                    autoComplete='on'
+                    maxLength={40}
+                    minLength={8}
+                    className={style.Input}
+                    {...register('email', {
+                        required: true,
+                        maxLength: 40,
+                        pattern: patternEmail,
+                    })}
+                    type=" "
+                    placeholder=" "
+                />
+                <div>
+                    {errors?.email && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
+                </div>
+                <label className={style.Placeholder} htmlFor="email">
+                    E-mail
+                </label>
+            </div>
+            <div className={style.contentInputWrapperMargin}>
+                <input
+                    autoComplete='on'
+                    maxLength={40}
+                    minLength={8}
+                    className={style.Input}
+                    {...register('password', {
+                        required: true,
+                        maxLength: 40,
+                    })}
+                    type="password"
+                    placeholder=" "
+                />
+                <div>
+                    {errors?.password && <span className={style.emptyInputError}>Обязательное поле для ввода</span>}
+                </div>
+                <label className={style.Placeholder} htmlFor="pass">
+                    Пароль
+                </label>
+            </div>
+            <button type="submit" className={`${style.btnReset} ${style.contentFormBtn} ${style.Margin24}`}>Регистрация</button>
+        </form>
+
     );
 };
 

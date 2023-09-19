@@ -1,23 +1,23 @@
 import { createSlice} from '@reduxjs/toolkit';
 import fetchAuth from "../thunk/fetchAuth.ts";
 
-const authSlice = createSlice({
+const authSlice:any = createSlice({
     name: 'auth',
     initialState: {
         auths: [],
     },
     reducers: {
-        logout: (state) => {
+        logout: (state:any) => {
             state.data = null;
         }
     },
     extraReducers: {
-        [fetchAuth.fulfilled]: (state, action) => {
+        [fetchAuth.fulfilled]: (state:any, action:any) => {
             state.data = action.payload
         }
     }
 });
-export const selectIsAuth = (state) => Boolean(state.auth.data)
+export const selectIsAuth = (state:any) => Boolean(state.auth.data)
 
 export default authSlice.reducer;
 

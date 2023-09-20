@@ -24,7 +24,7 @@ const Form:FC = () => {
     formState: { errors},
   } = useForm<IFormInput>({
       defaultValues: {
-          email: 'nikitavegas95@gmail.com',
+          email: '',
           password: '',
       },
     mode: 'onSubmit',

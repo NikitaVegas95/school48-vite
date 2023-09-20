@@ -21,8 +21,8 @@ const RegistrationForm:FC = () => {
         formState: { errors},
     } = useForm<IFormInputReg>({
         defaultValues: {
-            fullName: 'Никита',
-            email: 'nikitavegas95@gmail.com',
+            fullName: '',
+            email: '',
             password: '',
         },
         mode: 'onSubmit',

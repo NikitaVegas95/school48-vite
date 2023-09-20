@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance:any = axios.create({
-    baseURL: 'http://localhost:7412/'
+    baseURL: 'https://server-tan-seven.vercel.app/'
 })
 
 instance.interceptors.request.use((config: any) => {

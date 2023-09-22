@@ -12,9 +12,7 @@ import {useNavigate} from "react-router-dom";
 
 const Form:FC = () => {
     const isAuth = useSelector(selectIsAuth)
-    console.log(isAuth)
     const isAuthToken = window.localStorage.getItem('token')
-    console.log(isAuthToken)
     const dispatch = useDispatch<AppDispatch>()
     const navigateToTasks = useNavigate()
   const {
@@ -38,7 +36,6 @@ const Form:FC = () => {
 
   const onSubmit = async (values: any) => {
       const data = await dispatch(fetchAuth(values))
-      console.log(data)
       if (!data.payload) {
           alert('Не удалось авторизоваться')
       }

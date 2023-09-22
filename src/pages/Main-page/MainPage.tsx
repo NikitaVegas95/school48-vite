@@ -7,13 +7,9 @@ import {useNavigate} from "react-router-dom";
 import style from './MainPage.module.scss';
 import fetchAuthMe from "../../store/thunk/fetchAuthMe.ts";
 
-const getTasks = (state:any) => {
-    return state.taskSlice.tasks;
-}
+const getTasks = (state:any) => state.taskSlice.tasks;
 
-const getUser = (state:any) => {
-    return state.authMeSlice.authMe.fullName
-}
+const getUser = (state:any) => state.authMeSlice.authMe.fullName
 
 const MainPage:FC = () => {
     const setTasks = useSelector(getTasks)

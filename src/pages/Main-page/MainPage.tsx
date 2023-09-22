@@ -12,13 +12,12 @@ const getTasks = (state:any) => {
 }
 
 const getUser = (state:any) => {
-    return state.authMeSlice.authMe
+    return state.authMeSlice.authMe.fullName
 }
 
 const MainPage:FC = () => {
     const setTasks = useSelector(getTasks)
     const setUser = useSelector(getUser)
-    console.log(setUser)
     const dispatch = useDispatch<AppDispatch>()
     const isAuthToken = window.localStorage.getItem('token')
     const navigateToLogin = useNavigate()
@@ -58,7 +57,7 @@ const MainPage:FC = () => {
             </aside>
             <header className={style.header}>
                 <div className={style.user}>
-                    Привет, {setUser.fullName}
+                    Привет, {setUser}
                 </div>
             </header>
             <div className={style.main}>

@@ -4,13 +4,21 @@ import {AppDispatch} from "../../store";
 import fetchTasks from "../../store/thunk/fetchTasks.ts";
 import {logout} from "../../store/slices/auth.ts";
 import {useNavigate} from "react-router-dom";
+import style from './MainPage.module.scss';
+import fetchAuthMe from "../../store/thunk/fetchAuthMe.ts";
 
 const getTasks = (state:any) => {
-    return state.task.tasks;
+    return state.taskSlice.tasks;
+}
+
+const getUser = (state:any) => {
+    return state.authMeSlice.authMe
 }
 
 const MainPage:FC = () => {
     const setTasks = useSelector(getTasks)
+    const setUser = useSelector(getUser)
+    console.log(setUser)
     const dispatch = useDispatch<AppDispatch>()
     const isAuthToken = window.localStorage.getItem('token')
     const navigateToLogin = useNavigate()
@@ -18,6 +26,7 @@ const MainPage:FC = () => {
     useEffect(() => {
         if (isAuthToken) {
             dispatch(fetchTasks())
+            dispatch(fetchAuthMe())
         }
         if (!isAuthToken) {
             navigateToLogin('/')
@@ -34,19 +43,34 @@ const MainPage:FC = () => {
         }
     }
 
-
-
     return (
-        <div>
-            {setTasks.map((task:any, index:any) => (
-                <div key={index}>
-                    <h1>{task.title}</h1>
-                    <p>{task.text}</p>
-                    <p>{task._id}</p>
+        <div className={style.container}>
+            <aside className={style.asideContainer}>
+                <div className={style.asideBtnsWrapper}>
+                    <button className={`${style.btnReset} ${style.asideBtns}`}>
+                        Главная
+                    </button>
+                    <button className={`${style.btnReset} ${style.asideBtns}`}>
+                        Мои варианты
+                    </button>
                 </div>
-            ))}
-            <div>
-                <button onClick={onClickLogout}>выход</button>
+                <button className={`${style.btnReset} ${style.exitBtn}`} onClick={onClickLogout}>Выйти</button>
+            </aside>
+            <header className={style.header}>
+                <div className={style.user}>
+                    Привет, {setUser.fullName}
+                </div>
+            </header>
+            <div className={style.main}>
+                <div className={style.mainTasks}>
+                    {setTasks.map((task:any, index:any) => (
+                        <div className={style.taskWrapper} key={index}>
+                            <h1>{task.title}</h1>
+                            <p>{task.text}</p>
+                            <p>{task._id}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -1,17 +1,25 @@
 import { createSlice} from '@reduxjs/toolkit';
 import fetchAuthMe from "../thunk/fetchAuthMe.ts";
 
-const authSlice:any = createSlice({
-    name: 'auth',
+const authSliceMe:any = createSlice({
+    name: 'authMe',
     initialState: {
-        auths: [],
+        authMe: [
+            {
+                _doc: {
+                    _id: null,
+                    fullName: null,
+                    email: null,
+                }
+            }
+        ]
     },
     reducers: {},
     extraReducers: {
         [fetchAuthMe.fulfilled]: (state:any, action:any) => {
-            state.data = action.payload
+            state.authMe = action.payload
         }
     }
 });
+export default authSliceMe.reducer;
 
-export default authSlice.reducer;

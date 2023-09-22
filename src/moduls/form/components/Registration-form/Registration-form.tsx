@@ -43,7 +43,7 @@ const RegistrationForm:FC = () => {
     };
 
     if (isAuth && isAuthToken) {
-        navigateToTasks('/tasks')
+        navigateToTasks('/')
     }
 
     return (

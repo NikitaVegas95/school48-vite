@@ -2,13 +2,21 @@ import { createSlice} from '@reduxjs/toolkit';
 import fetchAuth from "../thunk/fetchAuth.ts";
 
 const authSlice:any = createSlice({
-    name: 'auth',
+    name: 'auths',
     initialState: {
-        auths: [],
+        auths: [
+            {
+                _doc: {
+                    _id: null,
+                    fullName: null,
+                    email: null,
+                }
+            }
+        ],
     },
     reducers: {
         logout: (state:any) => {
-            state.data = null;
+            state.authSlice = null;
         }
     },
     extraReducers: {
@@ -17,7 +25,7 @@ const authSlice:any = createSlice({
         }
     }
 });
-export const selectIsAuth = (state:any) => Boolean(state.auth.data)
+export const selectIsAuth = (state:any) => Boolean(state.authSlice.data)
 
 export default authSlice.reducer;
 

@@ -6,11 +6,7 @@ const registrationSlice:any = createSlice({
     initialState: {
         registration: [],
     },
-    reducers: {
-        logout: (state:any) => {
-            state.data = null;
-        }
-    },
+    reducers: {},
     extraReducers: {
         [fetchRegistration.fulfilled]: (state:any, action:any) => {
             state.data = action.payload
@@ -18,5 +14,3 @@ const registrationSlice:any = createSlice({
     }
 });
 export default registrationSlice.reducer;
-
-export const {logout} = registrationSlice.actions

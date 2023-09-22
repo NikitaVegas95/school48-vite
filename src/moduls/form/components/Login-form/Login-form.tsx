@@ -3,18 +3,18 @@ import {IFormInput} from '../../../../app.interface.ts';
 import Fpass from '../../../../components/Fpass/Fpass.tsx';
 import patternEmail from '../../pattern/pattern-email.tsx';
 import style from './Login-form.module.scss'
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
 import fetchAuth from "../../../../store/thunk/fetchAuth.ts";
 import {selectIsAuth} from "../../../../store/slices/auth.ts";
 import {useNavigate} from "react-router-dom";
 
-
-
 const Form:FC = () => {
     const isAuth = useSelector(selectIsAuth)
+    console.log(isAuth)
     const isAuthToken = window.localStorage.getItem('token')
+    console.log(isAuthToken)
     const dispatch = useDispatch<AppDispatch>()
     const navigateToTasks = useNavigate()
   const {
@@ -24,11 +24,17 @@ const Form:FC = () => {
     formState: { errors},
   } = useForm<IFormInput>({
       defaultValues: {
-          email: '',
+          email: 'nikitavegas95@gmail.com',
           password: '',
       },
     mode: 'onSubmit',
   });
+    
+    useEffect(() => {
+        if (isAuthToken) {
+            navigateToTasks('/tasks')
+        }
+    },[isAuth, isAuthToken, navigateToTasks])
 
   const onSubmit = async (values: any) => {
       const data = await dispatch(fetchAuth(values))
@@ -47,7 +53,6 @@ const Form:FC = () => {
   if (isAuth && isAuthToken) {
       navigateToTasks('/tasks')
   }
-
 
   return (
     <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>

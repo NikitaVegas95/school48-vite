@@ -1,7 +1,6 @@
 import {FC} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../store";
-import {selectIsAuth} from "../../../../store/slices/auth.ts";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {IFormInputReg} from "../../../../app.interface.ts";
@@ -10,10 +9,8 @@ import patternEmail from "../../pattern/pattern-email.tsx";
 import fetchRegistration from "../../../../store/thunk/featchRegistration.ts";
 
 const RegistrationForm:FC = () => {
-    const isAuth = useSelector(selectIsAuth)
-    const isAuthToken = window.localStorage.getItem('token')
     const dispatch = useDispatch<AppDispatch>()
-    const navigateToTasks = useNavigate()
+    const navigateToLogin = useNavigate()
     const {
         register,
         handleSubmit,
@@ -29,22 +26,14 @@ const RegistrationForm:FC = () => {
     });
 
     const onSubmit = async (values:any) => {
-        const data = await dispatch(fetchRegistration(values))
-        console.log(data)
-        if (!data.payload) {
-            alert('Не удалось зарегистрироваться')
-        }
-        if ('token' in data.payload) {
-            window.localStorage.setItem('token', data.payload.token)
-        } else {
-            alert('Не удалось зарегистрироваться')
+        try {
+            await dispatch(fetchRegistration(values))
+            navigateToLogin('/')
+        } catch (err) {
+            console.log(err)
         }
         reset();
     };
-
-    if (isAuth && isAuthToken) {
-        navigateToTasks('/')
-    }
 
     return (
         <form className={style.contentForm} onSubmit={handleSubmit(onSubmit)}>

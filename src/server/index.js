@@ -9,6 +9,11 @@ import cors from "cors";
 export const appServer = express();
 appServer.use(express.json());
 appServer.use(cors());
+// appServer.use(cors({
+//   origin: ["https://school48-vite.vercel.app"],
+//   methods: ["POST", "GET"],
+//   credentials: true
+// }));
 
 mongoose.connect('mongodb+srv://nikitavegas95:7412@cluster0.kyp5gki.mongodb.net/user?retryWrites=true&w=majority')
     .then(() => console.log('DB ok'))
@@ -30,4 +35,9 @@ appServer.listen(7412, (err) => {
   }
   console.log('Server OK');
 });
-
+// appServer.listen('https://school48-vite.vercel.app', (err) => {
+//   if (err) {
+//     return console.log(err);
+//   }
+//   console.log('Server OK');
+// });

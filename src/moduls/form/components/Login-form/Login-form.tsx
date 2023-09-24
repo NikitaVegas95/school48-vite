@@ -18,7 +18,6 @@ const Form:FC = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors},
   } = useForm<IFormInput>({
       defaultValues: {
@@ -34,8 +33,8 @@ const Form:FC = () => {
         }
     },[isAuth, isAuthToken, navigateToTasks])
 
-  const onSubmit = async (values: any) => {
-      const data = await dispatch(fetchAuth(values))
+  const onSubmit = async (value:any) => {
+      const data = await dispatch(fetchAuth(value))
       if (!data.payload) {
           alert('Не удалось авторизоваться')
       }
@@ -44,7 +43,6 @@ const Form:FC = () => {
       } else {
           alert('Не удалось авторизоваться')
       }
-    reset();
   };
 
   if (isAuth && isAuthToken) {

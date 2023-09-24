@@ -5,7 +5,6 @@ import RegistrationPage from "./pages/Registration-page/Registration-page.tsx";
 import MainPage from "./pages/Main-page/MainPage.tsx";
 
 const App:FC = () => {
-
     return (
         <Routes>
             <Route path='/' element={<HomePage/>}/>

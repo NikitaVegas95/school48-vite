@@ -19,10 +19,10 @@ const authSlice:any = createSlice({
             state.authSlice = null;
         }
     },
-    extraReducers: {
-        [fetchAuth.fulfilled]: (state:any, action:any) => {
-            state.data = action.payload
-        }
+    extraReducers: (builder) => {
+        builder.addCase(fetchAuth.fulfilled, (state: any, action:any) => {
+            state.data = action.email
+        })
     }
 });
 export const selectIsAuth = (state:any) => Boolean(state.authSlice.data)

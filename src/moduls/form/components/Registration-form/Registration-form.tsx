@@ -3,10 +3,10 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../store";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import {IFormInputReg} from "../../../../app.interface.ts";
 import style from "../Login-form/Login-form.module.scss";
 import patternEmail from "../../pattern/pattern-email.tsx";
 import fetchRegistration from "../../../../store/thunk/featchRegistration.ts";
+import {IFormInputReg} from "../../../../app.interface.ts";
 
 const RegistrationForm:FC = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -25,7 +25,7 @@ const RegistrationForm:FC = () => {
         mode: 'onSubmit',
     });
 
-    const onSubmit = async (values:any) => {
+    const onSubmit = async (values: IFormInputReg) => {
         try {
             await dispatch(fetchRegistration(values))
             navigateToLogin('/')

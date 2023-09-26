@@ -7,10 +7,10 @@ const registrationSlice:any = createSlice({
         registration: [],
     },
     reducers: {},
-    extraReducers: {
-        [fetchRegistration.fulfilled]: (state:any, action:any) => {
+    extraReducers: (builder) => {
+        builder.addCase(fetchRegistration.fulfilled, (state: any, action:any) => {
             state.data = action.payload
-        }
+        })
     }
 });
 export default registrationSlice.reducer;

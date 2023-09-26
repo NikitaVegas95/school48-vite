@@ -7,16 +7,16 @@ import {useNavigate} from "react-router-dom";
 import style from './MainPage.module.scss';
 import fetchAuthMe from "../../store/thunk/fetchAuthMe.ts";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
+import {IAuthToken, IGetTasks} from "../../app.interface.ts";
 
-const getTasks = (state:any) => state.taskSlice.tasks;
-
-const getUser = (state:any) => state.authMeSlice.authMe.fullName
+const getTasks = (state: any) => state.taskSlice.tasks;
+const getUser = (state: any) => state.authMeSlice.authMe.fullName
 
 const MainPage:FC = () => {
     const setTasks = useSelector(getTasks)
     const setUser = useSelector(getUser)
     const dispatch = useDispatch<AppDispatch>()
-    const isAuthToken = window.localStorage.getItem('token')
+    const isAuthToken: IAuthToken = window.localStorage.getItem('token')
     const navigateToLogin = useNavigate()
 
     useEffect(() => {
@@ -24,19 +24,13 @@ const MainPage:FC = () => {
             dispatch(fetchTasks())
             dispatch(fetchAuthMe())
         }
-        if (!isAuthToken) {
-            navigateToLogin('/')
-        }
+        if (!isAuthToken) return navigateToLogin('/')
     }, [dispatch, isAuthToken, navigateToLogin])
 
     const onClickLogout = () => {
-        if (window.confirm('Вы действительно хотите выйти?')) {
-            dispatch(logout())
-            window.localStorage.removeItem('token')
-        }
-        if (isAuthToken) {
-            navigateToLogin('/')
-        }
+        dispatch(logout())
+        window.localStorage.removeItem('token')
+        if (isAuthToken) return navigateToLogin('/')
     }
 
     const [ tabIndex, setTabIndex] = useState(0)
@@ -62,7 +56,7 @@ const MainPage:FC = () => {
             <div className={style.main}>
                 <TabPanel className={style.mainTasksContainer}>
                     <div className={style.mainTasks}>
-                        {setTasks.map((task:any, index:any) => (
+                        {setTasks.map((task: IGetTasks, index: number) => (
                             <div className={style.taskWrapper} key={index}>
                                 <h1>{task.title}</h1>
                                 <p>{task.text}</p>

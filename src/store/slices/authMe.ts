@@ -15,10 +15,10 @@ const authSliceMe:any = createSlice({
         ]
     },
     reducers: {},
-    extraReducers: {
-        [fetchAuthMe.fulfilled]: (state:any, action:any) => {
+    extraReducers: (builder) => {
+        builder.addCase(fetchAuthMe.fulfilled, (state: any, action:any) => {
             state.authMe = action.payload
-        }
+        })
     }
 });
 export default authSliceMe.reducer;

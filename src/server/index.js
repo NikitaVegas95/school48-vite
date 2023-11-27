@@ -8,13 +8,7 @@ import cors from "cors";
 
 export const appServer = express();
 appServer.use(express.json());
-
-// local
-
 appServer.use(cors());
-
-// для деплоя
-
 // appServer.use(cors({
 //   origin: ["https://school48-vite.vercel.app"],
 //   methods: ["POST", "GET"],
@@ -31,7 +25,11 @@ appServer.get('/auth/me', checkUser, userController.getMe)
 
 appServer.get('/tasks', taskController.getAll)
 appServer.get('/task/:id', taskController.getOne)
+<<<<<<< HEAD
 appServer.post('/task/create',checkUser, taskValidation, taskController.create)
+=======
+appServer.post('/task',checkUser, taskValidation, taskController.create)
+>>>>>>> origin/refactor_project
 appServer.delete('/task/:id',checkUser, taskController.remove)
 appServer.patch('/task/:id', taskController.update)
 

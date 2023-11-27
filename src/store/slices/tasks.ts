@@ -14,12 +14,11 @@ const taskSlice:any = createSlice(
             ]
         },
         reducers: {},
-        extraReducers: {
-            [fetchTasks.fulfilled]: (state:any, action:any) => {
+        extraReducers: (builder) => {
+            builder.addCase(fetchTasks.fulfilled, (state: any, action:any) => {
                 state.tasks = action.payload
-            },
+            })
         }
-
     }
 );
 export default taskSlice.reducer

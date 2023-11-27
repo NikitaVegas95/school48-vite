@@ -100,3 +100,44 @@
   margin-top: $margin-24;
 }
 
+.contentProgressBar {
+  margin-top: 74px;
+  display: grid;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progressBarText {
+  font-family: $font-family-MinSans;
+  font-weight: $regular-font-weight;
+  font-size: 14px;
+  line-height: 19px;
+  color: $black-color;
+  opacity: 0.6;
+}
+
+.progressBar {
+  width: 100%;
+  font-family: $font-family-MinSans;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 21px;
+  color: $black-color;
+}
+
+progress {
+  /* style rules */
+}
+progress::-webkit-progress-bar {
+  /* style rules */
+}
+progress::-webkit-progress-value {
+  /* style rules */
+}
+progress::-moz-progress-bar {
+  /* style rules */
+}

@@ -6,8 +6,8 @@ import style from './Login-form.module.scss'
 import {FC, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../../../store";
-import fetchAuth from "../../../../store/thunk/fetchAuth.ts";
-import {selectIsAuth} from "../../../../store/slices/auth.ts";
+import thunk from "../../../../store/auth/thunk.ts";
+import {selectIsAuth} from "../../../../store/auth/slice.ts";
 import {useNavigate} from "react-router-dom";
 
 const Form:FC = () => {
@@ -34,7 +34,7 @@ const Form:FC = () => {
     },[isAuth, isAuthToken, navigateToTasks])
 
   const onSubmit = async (value:any) => {
-      const data = await dispatch(fetchAuth(value))
+      const data = await dispatch(thunk(value))
       if (!data.payload) {
           alert('Не удалось авторизоваться')
       }

@@ -8,7 +8,7 @@ import cors from "cors";
 
 export const appServer = express();
 appServer.use(express.json());
-// appServer.use(cors());
+appServer.use(cors());
 appServer.use(cors({
   origin: ["https://school48-vite.vercel.app/"],
   methods: ["POST", "GET"],
@@ -36,6 +36,7 @@ appServer.patch('/task/:id', taskController.update)
 //   }
 //   console.log('Server OK');
 // });
+
 appServer.listen('https://school48-vite.vercel.app/', (err) => {
   if (err) {
     return console.log(err);

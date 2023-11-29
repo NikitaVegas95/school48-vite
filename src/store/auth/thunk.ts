@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios.ts";
 
-const fetchAuth = createAsyncThunk('/fetchAuth', async (params:string) => {
+const authThunk = createAsyncThunk('/authThunk', async (params:string) => {
     try {
         const {data} = await axios.post('/', params)
             return data
@@ -10,4 +10,4 @@ const fetchAuth = createAsyncThunk('/fetchAuth', async (params:string) => {
     }
 })
 
-export default fetchAuth
+export default authThunk

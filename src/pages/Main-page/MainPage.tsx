@@ -1,16 +1,17 @@
 import {FC, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch} from "../../store";
-import fetchTasks from "../../store/thunk/fetchTasks.ts";
-import {logout} from "../../store/slices/auth.ts";
+import {AppDispatch, RootState} from "../../store";
+import {logout} from "../../store/auth/slice.ts";
 import {useNavigate} from "react-router-dom";
 import style from './MainPage.module.scss';
-import fetchAuthMe from "../../store/thunk/fetchAuthMe.ts";
 import {Tab, TabList, TabPanel, Tabs} from "react-tabs";
 import {IAuthToken, IGetTasks} from "../../app.interface.ts";
+import authMeThunk from "../../store/authMe/thunk.ts";
+import taskThunk from "../../store/task/thunk.ts";
 
-const getTasks = (state: any) => state.taskSlice.tasks;
-const getUser = (state: any) => state.authMeSlice.authMe.fullName
+
+const getTasks = (state: RootState) => state.task.tasks;
+const getUser = (state: RootState) => state.authMe.authMe.fullName
 
 const MainPage:FC = () => {
     const setTasks = useSelector(getTasks)
@@ -21,8 +22,8 @@ const MainPage:FC = () => {
 
     useEffect(() => {
         if (isAuthToken) {
-            dispatch(fetchTasks())
-            dispatch(fetchAuthMe())
+            dispatch(taskThunk())
+            dispatch(authMeThunk())
         }
         if (!isAuthToken) return navigateToLogin('/')
     }, [dispatch, isAuthToken, navigateToLogin])

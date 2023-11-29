@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios.ts";
 
-const fetchRegistration:any = createAsyncThunk('/fetchRegistration', async (params:any) => {
+const registrationThunk = createAsyncThunk('/fetchRegistration', async (params) => {
     try {
         const {data} = await axios.post('/registration', params)
         return data
@@ -10,4 +10,4 @@ const fetchRegistration:any = createAsyncThunk('/fetchRegistration', async (para
     }
 })
 
-export default fetchRegistration
+export default registrationThunk

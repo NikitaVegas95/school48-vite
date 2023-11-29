@@ -5,8 +5,8 @@ import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import style from "../Login-form/Login-form.module.scss";
 import patternEmail from "../../pattern/pattern-email.tsx";
-import fetchRegistration from "../../../../store/thunk/featchRegistration.ts";
 import {IFormInputReg} from "../../../../app.interface.ts";
+import registrationThunk from "../../../../store/registration/thunk.ts";
 
 const RegistrationForm:FC = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -27,7 +27,7 @@ const RegistrationForm:FC = () => {
 
     const onSubmit = async (values: IFormInputReg) => {
         try {
-            await dispatch(fetchRegistration(values))
+            await dispatch(registrationThunk(values))
             navigateToLogin('/')
         } catch (err) {
             console.log(err)

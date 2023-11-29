@@ -1,16 +1,18 @@
 import {configureStore} from '@reduxjs/toolkit';
-import taskSlice from "./slices/tasks.ts";
-import authSlice from "./slices/auth.ts";
-import authSliceMe from "./slices/authMe.ts";
-import registrationSlice from "./slices/registration.ts"
+import authSlice from "./auth/slice.ts";
+import authMeSlice from "./authMe/slice.ts";
+import registrationSlice from "./registration/slice.ts"
+import taskSlice from "./task/slice.ts";
 
 const store = configureStore({
     reducer: {
-        taskSlice: taskSlice,
-        authSlice: authSlice,
-        authMeSlice: authSliceMe,
-        registrationSlice: registrationSlice,
+        task: taskSlice,
+        auth: authSlice,
+        authMe: authMeSlice,
+        registration: registrationSlice,
     }
 });
+
 export default store
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>

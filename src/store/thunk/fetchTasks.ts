@@ -2,7 +2,7 @@ import {createAsyncThunk, } from "@reduxjs/toolkit";
 import axios from "../../axios.ts";
 
 export const fetchTasks:any = createAsyncThunk(
-    '/tasks/fetchTasks', async () => {
+    '/tasks', async () => {
     try {
         const {data} = await axios.get('/tasks')
             return data

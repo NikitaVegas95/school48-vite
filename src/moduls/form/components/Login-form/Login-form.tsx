@@ -33,7 +33,7 @@ const Form:FC = () => {
         }
     },[isAuth, isAuthToken, navigateToTasks])
 
-  const onSubmit = async (value:any) => {
+  const onSubmit = async (value) => {
       const data = await dispatch(thunk(value))
       if (!data.payload) {
           alert('Не удалось авторизоваться')
